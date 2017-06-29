@@ -2,167 +2,75 @@ package com.sym.bean;
 
 public class Pg_user {
 	
-	private String UserID;//ID
-	private String UserCode;//编码
-	private String UserName;//姓名
-	private String Password;//密码
-	private String PasswordKey;//加解密密钥
-	private String PasswordIV;//加解密矢量
-	private String UserClass;//用户类别（1，系统用户，2，员工）
-	private String Gender;//性别:1,男，2,女
-	private String ISDN;//身份证号
-	private String Telephone;//电话
-	private String Mobile;//手机
-	private String Fax;//传真
-	private String Email;//电子邮件
-	private String Address;//住址
-	private String Photo;//相片
-	private String Age;//年龄
-	private String Birthday;//出生日期
-	private String Remark;//备注
-	private String Status;//用户状态(1,有效，0,禁用，-1,删除)
-	private String CreatedBy;//创建人
-	private String CreatedDate;//创建时间
-	private String ModifiedBy;//修改人
-	private String ModifiedDate;//修改时间
+	private String  USER_ID;
+	private String  USER_Code;
+	private String  USER_Name;
+	private String  USER_ISDN;
+	private String  USER_Mobile;
+	private String  USER_RegisterDate;
+	private String  USER_Status;
+	private String  USER_VipLevel;
+	private String  USER_Blance;
+	private String  STORE_ID;
 	
-	public String getUserID() {
-		return UserID;
+	public String getUSER_ID() {
+		return USER_ID;
 	}
-	public void setUserID(String userID) {
-		UserID = userID;
+	public void setUSER_ID(String uSER_ID) {
+		USER_ID = uSER_ID;
 	}
-	public String getUserCode() {
-		return UserCode;
+	public String getUSER_Code() {
+		return USER_Code;
 	}
-	public void setUserCode(String userCode) {
-		UserCode = userCode;
+	public void setUSER_Code(String uSER_Code) {
+		USER_Code = uSER_Code;
 	}
-	public String getUserName() {
-		return UserName;
+	public String getUSER_Name() {
+		return USER_Name;
 	}
-	public void setUserName(String userName) {
-		UserName = userName;
+	public void setUSER_Name(String uSER_Name) {
+		USER_Name = uSER_Name;
 	}
-	public String getPassword() {
-		return Password;
+	public String getUSER_ISDN() {
+		return USER_ISDN;
 	}
-	public void setPassword(String password) {
-		Password = password;
+	public void setUSER_ISDN(String uSER_ISDN) {
+		USER_ISDN = uSER_ISDN;
 	}
-	public String getPasswordKey() {
-		return PasswordKey;
+	public String getUSER_Mobile() {
+		return USER_Mobile;
 	}
-	public void setPasswordKey(String passwordKey) {
-		PasswordKey = passwordKey;
+	public void setUSER_Mobile(String uSER_Mobile) {
+		USER_Mobile = uSER_Mobile;
 	}
-	public String getPasswordIV() {
-		return PasswordIV;
+	public String getUSER_RegisterDate() {
+		return USER_RegisterDate;
 	}
-	public void setPasswordIV(String passwordIV) {
-		PasswordIV = passwordIV;
+	public void setUSER_RegisterDate(String uSER_RegisterDate) {
+		USER_RegisterDate = uSER_RegisterDate;
 	}
-	public String getUserClass() {
-		return UserClass;
+	public String getUSER_Status() {
+		return USER_Status;
 	}
-	public void setUserClass(String userClass) {
-		UserClass = userClass;
+	public void setUSER_Status(String uSER_Status) {
+		USER_Status = uSER_Status;
 	}
-	public String getGender() {
-		return Gender;
+	public String getUSER_VipLevel() {
+		return USER_VipLevel;
 	}
-	public void setGender(String gender) {
-		Gender = gender;
+	public void setUSER_VipLevel(String uSER_VipLevel) {
+		USER_VipLevel = uSER_VipLevel;
 	}
-	public String getISDN() {
-		return ISDN;
+	public String getUSER_Blance() {
+		return USER_Blance;
 	}
-	public void setISDN(String iSDN) {
-		ISDN = iSDN;
+	public void setUSER_Blance(String uSER_Blance) {
+		USER_Blance = uSER_Blance;
 	}
-	public String getTelephone() {
-		return Telephone;
+	public String getSTORE_ID() {
+		return STORE_ID;
 	}
-	public void setTelephone(String telephone) {
-		Telephone = telephone;
+	public void setSTORE_ID(String sTORE_ID) {
+		STORE_ID = sTORE_ID;
 	}
-	public String getMobile() {
-		return Mobile;
-	}
-	public void setMobile(String mobile) {
-		Mobile = mobile;
-	}
-	public String getFax() {
-		return Fax;
-	}
-	public void setFax(String fax) {
-		Fax = fax;
-	}
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String email) {
-		Email = email;
-	}
-	public String getAddress() {
-		return Address;
-	}
-	public void setAddress(String address) {
-		Address = address;
-	}
-	public String getPhoto() {
-		return Photo;
-	}
-	public void setPhoto(String photo) {
-		Photo = photo;
-	}
-	public String getAge() {
-		return Age;
-	}
-	public void setAge(String age) {
-		Age = age;
-	}
-	public String getBirthday() {
-		return Birthday;
-	}
-	public void setBirthday(String birthday) {
-		Birthday = birthday;
-	}
-	public String getRemark() {
-		return Remark;
-	}
-	public void setRemark(String remark) {
-		Remark = remark;
-	}
-	public String getStatus() {
-		return Status;
-	}
-	public void setStatus(String status) {
-		Status = status;
-	}
-	public String getCreatedBy() {
-		return CreatedBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		CreatedBy = createdBy;
-	}
-	public String getCreatedDate() {
-		return CreatedDate;
-	}
-	public void setCreatedDate(String createdDate) {
-		CreatedDate = createdDate;
-	}
-	public String getModifiedBy() {
-		return ModifiedBy;
-	}
-	public void setModifiedBy(String modifiedBy) {
-		ModifiedBy = modifiedBy;
-	}
-	public String getModifiedDate() {
-		return ModifiedDate;
-	}
-	public void setModifiedDate(String modifiedDate) {
-		ModifiedDate = modifiedDate;
-	}
-	
 }

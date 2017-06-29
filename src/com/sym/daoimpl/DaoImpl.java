@@ -42,29 +42,29 @@ public class DaoImpl
 				System.out.println("==UserID=="+rs.getString("UserID"));
 				System.out.println("==UserCode=="+rs.getString("UserCode"));
 				System.out.println("==UserName=="+rs.getString("UserName"));
-				user.setUserID(rs.getString("UserID"));
-				user.setUserCode(rs.getString("UserCode"));
-				user.setUserName(rs.getString("UserName"));
-				user.setPassword(rs.getString("Password"));
-				user.setPasswordKey(rs.getString("PasswordKey"));
-				user.setPasswordIV(rs.getString("PasswordIV"));
-				user.setUserClass(rs.getString("UserClass"));
-				user.setGender(rs.getString("Gender"));
-				user.setISDN(rs.getString("ISDN"));
-				user.setTelephone(rs.getString("Telephone"));
-				user.setMobile(rs.getString("Mobile"));
-				user.setFax(rs.getString("Fax"));
-				user.setEmail(rs.getString("Email"));
-				user.setAddress(rs.getString("Address"));
-				user.setPhoto(rs.getString("Photo"));
-				user.setAge(rs.getString("Age"));
-				user.setBirthday(rs.getString("Birthday"));
-				user.setRemark(rs.getString("Remark"));
-				user.setStatus(rs.getString("Status"));
-				user.setCreatedBy(rs.getString("CreatedBy"));
-				user.setCreatedDate(rs.getString("CreatedDate"));
-				user.setModifiedBy(rs.getString("ModifiedBy"));
-				user.setModifiedDate(rs.getString("ModifiedDate"));				
+//				user.setUserID(rs.getString("UserID"));
+//				user.setUserCode(rs.getString("UserCode"));
+//				user.setUserName(rs.getString("UserName"));
+//				user.setPassword(rs.getString("Password"));
+//				user.setPasswordKey(rs.getString("PasswordKey"));
+//				user.setPasswordIV(rs.getString("PasswordIV"));
+//				user.setUserClass(rs.getString("UserClass"));
+//				user.setGender(rs.getString("Gender"));
+//				user.setISDN(rs.getString("ISDN"));
+//				user.setTelephone(rs.getString("Telephone"));
+//				user.setMobile(rs.getString("Mobile"));
+//				user.setFax(rs.getString("Fax"));
+//				user.setEmail(rs.getString("Email"));
+//				user.setAddress(rs.getString("Address"));
+//				user.setPhoto(rs.getString("Photo"));
+//				user.setAge(rs.getString("Age"));
+//				user.setBirthday(rs.getString("Birthday"));
+//				user.setRemark(rs.getString("Remark"));
+//				user.setStatus(rs.getString("Status"));
+//				user.setCreatedBy(rs.getString("CreatedBy"));
+//				user.setCreatedDate(rs.getString("CreatedDate"));
+//				user.setModifiedBy(rs.getString("ModifiedBy"));
+//				user.setModifiedDate(rs.getString("ModifiedDate"));				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -121,12 +121,12 @@ public class DaoImpl
 		    	{	    			
 		    		rs.next();
 		    		puser = new Pg_user();
-		    		puser.setUserID(rs.getString("UserID"));
-		    		puser.setUserCode(rs.getString("UserCode"));
-		    		puser.setUserName(rs.getString("UserName"));
-		    		puser.setTelephone(rs.getString("Telephone"));
-		    		puser.setMobile(rs.getString("Mobile"));
-		    		puser.setEmail(rs.getString("Email"));
+//		    		puser.setUserID(rs.getString("UserID"));
+//		    		puser.setUserCode(rs.getString("UserCode"));
+//		    		puser.setUserName(rs.getString("UserName"));
+//		    		puser.setTelephone(rs.getString("Telephone"));
+//		    		puser.setMobile(rs.getString("Mobile"));
+//		    		puser.setEmail(rs.getString("Email"));
 		    		list.add(puser);
 		    	}
 			}
@@ -296,16 +296,16 @@ public class DaoImpl
    		    	{	    			
    		    		rs.next();
    		    		puser = new Pg_user();
-   		    		puser.setUserID(rs.getString("UserID"));
-   		    		puser.setUserCode(rs.getString("UserCode"));
-   		    		puser.setUserName(rs.getString("UserName"));
-   		    		puser.setTelephone(rs.getString("Telephone"));
-   		    		puser.setMobile(rs.getString("Mobile"));
-   		    		puser.setEmail(rs.getString("Email"));
-   		    		puser.setAddress(rs.getString("Address"));
-   		    		puser.setISDN(rs.getString("ISDN"));
-   		    		puser.setPassword(rs.getString("Password"));
-   		    		puser.setUserClass(rs.getString("UserClass"));
+//   		    		puser.setUserID(rs.getString("UserID"));
+//   		    		puser.setUserCode(rs.getString("UserCode"));
+//   		    		puser.setUserName(rs.getString("UserName"));
+//   		    		puser.setTelephone(rs.getString("Telephone"));
+//   		    		puser.setMobile(rs.getString("Mobile"));
+//   		    		puser.setEmail(rs.getString("Email"));
+//   		    		puser.setAddress(rs.getString("Address"));
+//   		    		puser.setISDN(rs.getString("ISDN"));
+//   		    		puser.setPassword(rs.getString("Password"));
+//   		    		puser.setUserClass(rs.getString("UserClass"));
    		    		list.add(puser);
    		    	}
    			}
@@ -333,17 +333,17 @@ public class DaoImpl
 		        	     +" UserClass = ? "
 		        	     + "where UserCode = ?"
 		        	     );
-			ps.setString(1,puser.getUserCode());	
-			ps.setString(2,puser.getUserName());
-			ps.setString(3,puser.getPassword());
-			ps.setString(4,puser.getGender());
-			ps.setString(5,puser.getAddress());
-			ps.setString(6,puser.getISDN());
-			ps.setString(7,puser.getTelephone());
-			ps.setString(8,puser.getMobile());
-			ps.setString(9,puser.getEmail());
-			ps.setString(10,puser.getUserClass());			
-			ps.setString(11,puser.getUserCode());
+//			ps.setString(1,puser.getUserCode());	
+//			ps.setString(2,puser.getUserName());
+//			ps.setString(3,puser.getPassword());
+//			ps.setString(4,puser.getGender());
+//			ps.setString(5,puser.getAddress());
+//			ps.setString(6,puser.getISDN());
+//			ps.setString(7,puser.getTelephone());
+//			ps.setString(8,puser.getMobile());
+//			ps.setString(9,puser.getEmail());
+//			ps.setString(10,puser.getUserClass());			
+//			ps.setString(11,puser.getUserCode());
 			System.out.println("=UpdateUser=sql="+ps.toString());
 			i=ps.executeUpdate();
 		} catch (SQLException e) {
@@ -372,12 +372,12 @@ public class DaoImpl
    		    	{	    			
    		    		rs.next();
    		    		puser = new Pg_user();   		    		
-   		    		puser.setUserCode(COMPANYNAME+(rs.getInt("Number")+1));   
-   		    		Random random = new Random();
-   		    		int x = random.nextInt(899999);
-   		    		x = x+100000;
-   		    		puser.setPassword(x+"");
-   		    		System.out.println(puser.getPassword()+"==="+puser.getUserCode());
+//   		    		puser.setUserCode(COMPANYNAME+(rs.getInt("Number")+1));   
+//   		    		Random random = new Random();
+//   		    		int x = random.nextInt(899999);
+//   		    		x = x+100000;
+//   		    		puser.setPassword(x+"");
+//   		    		System.out.println(puser.getPassword()+"==="+puser.getUserCode());
    		    		list.add(puser);
    		    	}
    			}
@@ -388,9 +388,9 @@ public class DaoImpl
    	}
     
     public int AddUser(Pg_user puser){
-    	puser.setCreatedBy(COMPANYNAME);
-    	puser.setModifiedBy(COMPANYNAME);
-    	puser.setUserID(UUID.randomUUID().toString());
+//    	puser.setCreatedBy(COMPANYNAME);
+//    	puser.setModifiedBy(COMPANYNAME);
+//    	puser.setUserID(UUID.randomUUID().toString());
     	GetConn getConn=new GetConn();
 		int i = 0;
 		Connection conn=getConn.getConnection();
@@ -401,19 +401,19 @@ public class DaoImpl
 						 + " ?,?,?,?,?,?,?,?,?,?,?,1,?,now(),?,now()"
 		        	     + ")"
 		        	     );
-			ps.setString(1,puser.getUserID());
-			ps.setString(2,puser.getUserCode());	
-			ps.setString(3,puser.getUserClass());
-			ps.setString(4,puser.getUserName());
-			ps.setString(5,puser.getPassword());
-			ps.setString(6,puser.getGender());
-			ps.setString(7,puser.getAddress());
-			ps.setString(8,puser.getISDN());
-			ps.setString(9,puser.getTelephone());
-			ps.setString(10,puser.getMobile());
-			ps.setString(11,puser.getEmail());
-			ps.setString(12,puser.getCreatedBy());
-			ps.setString(13,puser.getModifiedBy());
+//			ps.setString(1,puser.getUserID());
+//			ps.setString(2,puser.getUserCode());	
+//			ps.setString(3,puser.getUserClass());
+//			ps.setString(4,puser.getUserName());
+//			ps.setString(5,puser.getPassword());
+//			ps.setString(6,puser.getGender());
+//			ps.setString(7,puser.getAddress());
+//			ps.setString(8,puser.getISDN());
+//			ps.setString(9,puser.getTelephone());
+//			ps.setString(10,puser.getMobile());
+//			ps.setString(11,puser.getEmail());
+//			ps.setString(12,puser.getCreatedBy());
+//			ps.setString(13,puser.getModifiedBy());
 			
 			System.out.println("=AddUser=sql="+ps.toString());
 			i=ps.executeUpdate();
@@ -626,7 +626,7 @@ public class DaoImpl
 						 + "set Status = -1 "
 		        	     + "where UserCode = ?"
 		        	     );
-			ps.setString(1,puser.getUserCode());	
+//			ps.setString(1,puser.getUserCode());	
 			System.out.println("=DeleteOrder=sql="+ps.toString());
 			i=ps.executeUpdate();
 		} catch (SQLException e) {

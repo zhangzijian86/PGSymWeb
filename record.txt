@@ -1,0 +1,69 @@
+database
+
+create database PGSymWeb;
+ALTER DATABASE  PGSymWeb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;  
+
+CREATE TABLE `PG_USER` (
+  `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
+  `USER_Code` varchar(16) NOT NULL COMMENT '用户编码',
+  `USER_Name` varchar(20) NOT NULL COMMENT '姓名',
+  `USER_ISDN` varchar(20) DEFAULT NULL COMMENT '身份证号',
+  `USER_Mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `USER_RegisterDate` datetime DEFAULT NULL COMMENT '注册日期',
+  `USER_Status` int(11) NOT NULL DEFAULT '0' COMMENT '用户状态(-1,删除用户 0,普通用户 1,门店用户 2,超级用户)',
+  `USER_VipLevel` int(11) NOT NULL DEFAULT '0' COMMENT 'vip等级(0,vip0 1,vip1 2,vip2......)',
+  `USER_Blance` int(11) NOT NULL DEFAULT '0' COMMENT '账户余额', 
+  `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
+  PRIMARY KEY (`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE `PG_STORE` (
+  `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
+  `STORE_Code` varchar(16) NOT NULL COMMENT '门店编码',
+  `STORE_Name` varchar(20) NOT NULL COMMENT '门店名称',
+  `STORE_Phone` varchar(20) DEFAULT NULL COMMENT '门店电话',
+  `STORE_Position` varchar(200) DEFAULT NULL COMMENT '门店地址',
+  `STORE_OpeningDate` datetime DEFAULT NULL COMMENT '注册日期',
+  `STORE_Status` int(11) NOT NULL DEFAULT '0' COMMENT '门店状态(-1,删除 0,正常)',
+  PRIMARY KEY (`STORE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='门店表';
+
+CREATE TABLE `PG_GOODS` (
+  `GOODS_ID` varchar(36) NOT NULL COMMENT '商品ID',
+  `GOODS_Code` varchar(16) NOT NULL COMMENT '商品编码',
+  `GOODS_Name` varchar(20) NOT NULL COMMENT '商品名称',
+  `GOODS_Price` varchar(20) DEFAULT NULL COMMENT '商品价格',
+  `GOODS_DiscountPrice` varchar(20) DEFAULT NULL COMMENT '商品折扣价格',
+  `GOODS_ImageUrl` varchar(200) DEFAULT NULL COMMENT '商品图片url',
+  `GOODS_RecordDate` datetime DEFAULT NULL COMMENT '记录日期',
+  `GOODS_ProductDate` datetime DEFAULT NULL COMMENT '生产日期',
+  `GOODS_ExpirationDate` datetime DEFAULT NULL COMMENT '过期日期',
+  `GOODS_ShelfLife` varchar(20) DEFAULT NULL COMMENT '保质期',
+  `GOODS_Status` int(11) NOT NULL DEFAULT '0' COMMENT '商品状态(-1,删除 0,正常)',
+  PRIMARY KEY (`GOODS_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+
+CREATE TABLE `PG_Book` (
+  `BOOK_ID` varchar(36) NOT NULL COMMENT '预约ID',
+  `BOOK_Code` varchar(16) DEFAULT NULL COMMENT '预约编码',
+  `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
+  `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
+  `BOOK_Date` datetime DEFAULT NULL COMMENT '预约日期',
+  `BOOK_Status`  int(11) NOT NULL DEFAULT '0' COMMENT '预约状态(-1,删除 0,正常 1,取消)',  
+  `BOOK_Remarks` varchar(200) DEFAULT NULL COMMENT '预约备注',
+   PRIMARY KEY (`BOOK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约表';
+
+
+CREATE TABLE `PG_Book_Limits` (
+  `LIMITS_ID` varchar(36) NOT NULL COMMENT '权限ID',
+  `LIMITS_Code` varchar(16) DEFAULT NULL COMMENT '权限编码',
+  `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
+  `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
+  `LIMITS_Status`  int(11) NOT NULL DEFAULT '0' COMMENT '权限状态(-1,删除 0,正常 )',  
+   PRIMARY KEY (`LIMITS_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约权限表';
+
+
+
+

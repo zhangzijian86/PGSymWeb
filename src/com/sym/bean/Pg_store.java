@@ -9,7 +9,17 @@ public class Pg_store {
 	private String STORE_Position;
 	private String STORE_OpeningDate;
 	private String STORE_Status;
+	private String STORE_BookNumber;
 	
+	//STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
+	//STORE_OpeningDate,STORE_Status,STORE_BookNumber
+	
+	public String getSTORE_BookNumber() {
+		return STORE_BookNumber;
+	}
+	public void setSTORE_BookNumber(String sTORE_BookNumber) {
+		STORE_BookNumber = sTORE_BookNumber;
+	}
 	public String getSTORE_ID() {
 		return STORE_ID;
 	}

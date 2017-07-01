@@ -1,3 +1,15 @@
+获取验证码
+http://127.0.0.1:8080/WebRoot/GetYZM?user_mobile=1358190578
+注册
+http://127.0.0.1:8080/WebRoot/Register?user_wxid=weixinb&user_mobile=1358190578&user_name=zhang&store_id=100001
+登录
+http://127.0.0.1:8080/WebRoot/Login?user_wxid=weixinb
+获取我的店铺信息
+http://127.0.0.1:8080/WebRoot/GetMyStore?store_id=100001
+获取有权限预约的店铺信息
+http://127.0.0.1:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+
+
 database
 
 create database PGSymWeb;
@@ -5,6 +17,7 @@ ALTER DATABASE  PGSymWeb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `PG_USER` (
   `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
+  `USER_WXID` varchar(50) NOT NULL COMMENT '用户ID',
   `USER_Code` varchar(16) NOT NULL COMMENT '用户编码',
   `USER_Name` varchar(20) NOT NULL COMMENT '姓名',
   `USER_ISDN` varchar(20) DEFAULT NULL COMMENT '身份证号',
@@ -12,10 +25,18 @@ CREATE TABLE `PG_USER` (
   `USER_RegisterDate` datetime DEFAULT NULL COMMENT '注册日期',
   `USER_Status` int(11) NOT NULL DEFAULT '0' COMMENT '用户状态(-1,删除用户 0,普通用户 1,门店用户 2,超级用户)',
   `USER_VipLevel` int(11) NOT NULL DEFAULT '0' COMMENT 'vip等级(0,vip0 1,vip1 2,vip2......)',
-  `USER_Blance` int(11) NOT NULL DEFAULT '0' COMMENT '账户余额', 
+  `USER_Blance` varchar(20) NOT NULL DEFAULT '0' COMMENT '账户余额', 
+  `USER_Spend` varchar(20) NOT NULL DEFAULT '0' COMMENT '已消费金额', 
+  `USER_Score` varchar(20) NOT NULL DEFAULT '0' COMMENT '积分', 
   `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+insert into PG_USER
+(USER_ID,USER_WXID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
+ USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score)
+value ('100001','weixina','200001','张','11026','13581905786','2017-07-01 10:53:10',
+'0','0','0','0','0','100001');
 
 CREATE TABLE `PG_STORE` (
   `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
@@ -24,9 +45,28 @@ CREATE TABLE `PG_STORE` (
   `STORE_Phone` varchar(20) DEFAULT NULL COMMENT '门店电话',
   `STORE_Position` varchar(200) DEFAULT NULL COMMENT '门店地址',
   `STORE_OpeningDate` datetime DEFAULT NULL COMMENT '注册日期',
+  `STORE_BookNumber` varchar(20) NOT NULL DEFAULT '0' COMMENT '可预约总数', 
   `STORE_Status` int(11) NOT NULL DEFAULT '0' COMMENT '门店状态(-1,删除 0,正常)',
   PRIMARY KEY (`STORE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='门店表';
+
+insert into PG_STORE(
+STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
+STORE_OpeningDate,STORE_Status,STORE_BookNumber)
+value('100001','200001','A店','60982366','南京市',
+'2017-07-01 10:53:10','20',0);
+
+insert into PG_STORE(
+STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
+STORE_OpeningDate,STORE_Status,STORE_BookNumber)
+value('100002','200002','B店','60982366','南京市',
+'2017-07-01 10:53:10','20',0);
+
+insert into PG_STORE(
+STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
+STORE_OpeningDate,STORE_Status,STORE_BookNumber)
+value('100003','200003','C店','60982366','南京市',
+'2017-07-01 10:53:10','20',0);
 
 CREATE TABLE `PG_GOODS` (
   `GOODS_ID` varchar(36) NOT NULL COMMENT '商品ID',
@@ -64,6 +104,10 @@ CREATE TABLE `PG_Book_Limits` (
    PRIMARY KEY (`LIMITS_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约权限表';
 
+insert into PG_Book_Limits(LIMITS_ID,LIMITS_Code,USER_ID,STORE_ID,LIMITS_Status)
+value('100001','200001','fe3589c9-29eb-43c8-970b-f9b7f681fb21','100001','0');
 
+insert into PG_Book_Limits(LIMITS_ID,LIMITS_Code,USER_ID,STORE_ID,LIMITS_Status)
+value('100002','200001','fe3589c9-29eb-43c8-970b-f9b7f681fb21','100003','0');
 
 

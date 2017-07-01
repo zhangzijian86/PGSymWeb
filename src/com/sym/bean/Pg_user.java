@@ -3,6 +3,7 @@ package com.sym.bean;
 public class Pg_user {
 	
 	private String  USER_ID;
+	private String  USER_WXID;
 	private String  USER_Code;
 	private String  USER_Name;
 	private String  USER_ISDN;
@@ -12,7 +13,30 @@ public class Pg_user {
 	private String  USER_VipLevel;
 	private String  USER_Blance;
 	private String  STORE_ID;
+	private String  USER_Spend;
+	private String  USER_Score;	
 	
+	//USER_ID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
+	//USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_WXID
+	
+	public String getUSER_Spend() {
+		return USER_Spend;
+	}
+	public String getUSER_WXID() {
+		return USER_WXID;
+	}
+	public void setUSER_WXID(String uSER_WXID) {
+		USER_WXID = uSER_WXID;
+	}
+	public void setUSER_Spend(String uSER_Spend) {
+		USER_Spend = uSER_Spend;
+	}
+	public String getUSER_Score() {
+		return USER_Score;
+	}
+	public void setUSER_Score(String uSER_Score) {
+		USER_Score = uSER_Score;
+	}
 	public String getUSER_ID() {
 		return USER_ID;
 	}

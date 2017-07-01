@@ -41,7 +41,7 @@ public class DaoImpl
 		return b;
 	}
 	
-	public Pg_user register(String user_wxid,String user_mobile,
+	public Pg_user register(String user_password,String user_mobile,
 			String user_name,String store_id)
 	{
 		int i = 0;
@@ -56,15 +56,15 @@ public class DaoImpl
 					"(USER_ID,USER_WXID,USER_Code,USER_Name,"+ 
 					"USER_ISDN,USER_Mobile,USER_RegisterDate,"+ 
 					"USER_Status,USER_VipLevel,USER_Blance,"+ 
-					"STORE_ID,USER_Spend,USER_Score)"+
-					"value (?,?,'',?,'',"+
+					"STORE_ID,USER_Spend,USER_Score,USER_Password)"+
+					"value (?,'','',?,'',"+
 					"?,now(),'0','0','0','0',"
-					+ "'0',?)");
-			ps.setString(1,struuid);
-			ps.setString(2,user_wxid);
-			ps.setString(3,user_name);
-			ps.setString(4,user_mobile);	
-			ps.setString(5,store_id);	
+					+ "'0',?,?)");
+			ps.setString(1,struuid);			
+			ps.setString(2,user_name);
+			ps.setString(3,user_mobile);	
+			ps.setString(4,store_id);	
+			ps.setString(5,user_password);
 			i=ps.executeUpdate();	
 			if (i>0)
 			{	
@@ -82,7 +82,8 @@ public class DaoImpl
 				user.setSTORE_ID(store_id);
 				user.setUSER_Spend("0");
 				user.setUSER_Score("0");
-				user.setUSER_WXID(user_wxid);
+				user.setUSER_WXID("");
+				user.setUSER_Password(user_password);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,7 +92,7 @@ public class DaoImpl
 		return user;
 	}
 	
-	public Pg_user login(String user_wxid) 
+	public Pg_user login(String user_mobile,String user_password) 
 	{
 		GetConn getConn=new GetConn();
 		ResultSet rs = null;
@@ -102,9 +103,10 @@ public class DaoImpl
 					"select USER_ID,USER_Code,USER_Name,"+ 
 					"USER_ISDN,USER_Mobile,USER_RegisterDate,"+
 					"USER_Status,USER_VipLevel,USER_Blance,STORE_ID,"+ 
-					"USER_Spend,USER_Score,USER_WXID "+ 
-					"from PG_USER where USER_WXID = ? and USER_Status!=-1");
-			ps.setString(1,user_wxid);
+					"USER_Spend,USER_Score,USER_WXID,USER_Password "+ 
+					"from PG_USER where USER_Mobile = ? and USER_Password=? and USER_Status!=-1");
+			ps.setString(1,user_mobile);
+			ps.setString(2,user_password);
 			rs=ps.executeQuery();
 			if (rs.next())
 			{
@@ -122,6 +124,7 @@ public class DaoImpl
 				user.setUSER_Spend(rs.getString("USER_Spend"));
 				user.setUSER_Score(rs.getString("USER_Score"));
 				user.setUSER_WXID(rs.getString("USER_WXID"));
+				user.setUSER_Password(rs.getString("USER_Password"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -161,7 +164,7 @@ public class DaoImpl
 		return store;
 	}
 	
-	public List<Pg_store> getLimitsstore(String user_id) 
+	public List<Pg_store> getlimitsstore(String user_id) 
 	{
 		List<Pg_store> list=new ArrayList<Pg_store>();
 		GetConn getConn=new GetConn();
@@ -176,7 +179,42 @@ public class DaoImpl
 					"(select STORE_ID from PG_Book_Limits where USER_ID = ?)"+
 					" and STORE_Status!=-1");
 			ps.setString(1,user_id);
-			System.out.println("==getLimitsstore=="+ps.toString());
+			System.out.println("==getlimitsstore=="+ps.toString());
+			rs=ps.executeQuery();
+			while (rs.next())
+			{
+				Pg_store store = new Pg_store();
+				store.setSTORE_ID(rs.getString("STORE_ID"));
+				store.setSTORE_Code(rs.getString("STORE_Code"));
+				store.setSTORE_Name(rs.getString("STORE_Name"));
+				store.setSTORE_Phone(rs.getString("STORE_Phone"));
+				store.setSTORE_Position(rs.getString("STORE_Position"));
+				store.setSTORE_OpeningDate(rs.getString("STORE_OpeningDate"));
+				store.setSTORE_Status(rs.getString("STORE_Status"));
+				store.setSTORE_BookNumber(rs.getString("STORE_BookNumber"));	
+				list.add(store);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<Pg_store> getareastore(String area_id) 
+	{
+		List<Pg_store> list=new ArrayList<Pg_store>();
+		GetConn getConn=new GetConn();
+		ResultSet rs = null;
+		Connection conn=getConn.getConnection();		
+		try {
+			PreparedStatement ps=conn.prepareStatement(
+					"select STORE_ID,STORE_Code,STORE_Name,"+ 
+					"STORE_Phone,STORE_Position,"+
+					"STORE_OpeningDate,STORE_Status,STORE_BookNumber "+ 
+					"from PG_STORE where STORE_Code like ? "+
+					" and STORE_Status!=-1");
+			ps.setString(1,"%"+area_id+"%");
+			System.out.println("==getareastore=="+ps.toString());
 			rs=ps.executeQuery();
 			while (rs.next())
 			{

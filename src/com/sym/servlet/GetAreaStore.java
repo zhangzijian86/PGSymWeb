@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.sym.bean.Pg_store;
 import com.sym.bean.Pg_user;
 import com.sym.daoimpl.DaoImpl;
 
 
 @SuppressWarnings("serial")
-public class Login extends HttpServlet {
+public class GetAreaStore extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -29,19 +30,16 @@ public class Login extends HttpServlet {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-	    PrintWriter out=response.getWriter();	    
-		String user_mobile=request.getParameter("user_mobile");
-		String user_password=request.getParameter("user_password");
+	    PrintWriter out=response.getWriter();
+		String area_id=request.getParameter("area_id");
 		DaoImpl userDaoImpl=new DaoImpl();
-		Pg_user puser=userDaoImpl.login(user_mobile,user_password);
-		if(puser!=null){			
-			List<Pg_user> list1=new ArrayList<Pg_user>();
-			Gson gson=new Gson();//利用google提供的gson将一个list集合写成json形式的字符串		
-			list1.add(puser);
-			String jsonstring=gson.toJson(list1);
+		List<Pg_store> list=userDaoImpl.getareastore(area_id);
+		if(list!=null&&list.size()>0){					
+			Gson gson=new Gson();//利用google提供的gson将一个list集合写成json形式的字符串					
+			String jsonstring=gson.toJson(list);
 			out.write(jsonstring);
 		}else{
-			out.write("LoginFail");
+			out.write("GetAreaStoreFail");
 		}
 		out.flush();
 		out.close();

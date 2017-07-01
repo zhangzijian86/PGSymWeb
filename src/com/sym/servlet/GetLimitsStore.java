@@ -33,13 +33,13 @@ public class GetLimitsStore extends HttpServlet {
 	    PrintWriter out=response.getWriter();
 		String user_id=request.getParameter("user_id");
 		DaoImpl userDaoImpl=new DaoImpl();
-		List<Pg_store> list=userDaoImpl.getLimitsstore(user_id);
+		List<Pg_store> list=userDaoImpl.getlimitsstore(user_id);
 		if(list!=null&&list.size()>0){					
 			Gson gson=new Gson();//利用google提供的gson将一个list集合写成json形式的字符串					
 			String jsonstring=gson.toJson(list);
 			out.write(jsonstring);
 		}else{
-			out.write("GetMyStoreFail");
+			out.write("GetLimitsStoreFail");
 		}
 		out.flush();
 		out.close();

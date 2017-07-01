@@ -15,10 +15,17 @@ public class Pg_user {
 	private String  STORE_ID;
 	private String  USER_Spend;
 	private String  USER_Score;	
+	private String  USER_Password;
 	
 	//USER_ID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
 	//USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_WXID
 	
+	public String getUSER_Password() {
+		return USER_Password;
+	}
+	public void setUSER_Password(String uSER_Password) {
+		USER_Password = uSER_Password;
+	}
 	public String getUSER_Spend() {
 		return USER_Spend;
 	}

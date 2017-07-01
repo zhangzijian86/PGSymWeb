@@ -35,12 +35,12 @@ public class Register extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out=response.getWriter();
-		String user_wxid=request.getParameter("user_wxid");
+		String user_password=request.getParameter("user_password");
 		String user_mobile=request.getParameter("user_mobile");
 		String user_name=request.getParameter("user_name");
 		String store_id=request.getParameter("store_id");
 		DaoImpl userDaoImpl=new DaoImpl();
-		Pg_user puser=userDaoImpl.register(user_wxid,user_mobile,user_name,store_id);
+		Pg_user puser=userDaoImpl.register(user_password,user_mobile,user_name,store_id);
 		if(puser!=null){			
 			List<Pg_user> list1=new ArrayList<Pg_user>();
 			Gson gson=new Gson();//利用google提供的gson将一个list集合写成json形式的字符串		

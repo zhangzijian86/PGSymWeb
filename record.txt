@@ -1,14 +1,59 @@
-获取验证码
-http://127.0.0.1:8080/WebRoot/GetYZM?user_mobile=1358190578
-注册
-http://127.0.0.1:8080/WebRoot/Register?user_wxid=weixinb&user_mobile=1358190578&user_name=zhang&store_id=100001
-登录
-http://127.0.0.1:8080/WebRoot/Login?user_wxid=weixinb
-获取我的店铺信息
-http://127.0.0.1:8080/WebRoot/GetMyStore?store_id=100001
-获取有权限预约的店铺信息
-http://127.0.0.1:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+1.获取地区门店信息
+http://127.0.0.1:8080/WebRoot/GetAreaStore?area_id=320100
+http://59.110.152.140:8080/WebRoot/GetAreaStore?area_id=320100
+获取失败 返回 GetAreaStoreFail
+获取成功 返回 地区门店基本信息
+[{"STORE_ID":"100001","STORE_Code":"32010001","STORE_Name":"A店","STORE_Phone":"60982366","STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"},{"STORE_ID":"100002","STORE_Code":"32010002","STORE_Name":"B店","STORE_Phone":"60982366","STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"},{"STORE_ID":"100003","STORE_Code":"32010003","STORE_Name":"C店","STORE_Phone":"60982366","STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"}]
 
+2.获取验证码
+http://127.0.0.1:8080/WebRoot/GetYZM?user_mobile=1358190578
+http://59.110.152.140:8080/WebRoot/GetYZM?user_mobile=1358190578
+结果：
+已注册 返回 HasRegister
+未注册 返回 6位验证码 如 331993
+
+
+3.注册
+http://127.0.0.1:8080/WebRoot/Register?user_password=123456&user_mobile=1358190578&user_name=zhang&store_id=100001
+http://59.110.152.140:8080/WebRoot/Register?user_password=123456&user_mobile=1358190578&user_name=zhang&store_id=100001
+结果：
+注册失败 返回 RegisterFail
+注册成功 返回 用户基本信息
+[{"USER_ID":"a2b7e66b-c079-4c59-8a35-45a01cadf714","USER_WXID":""
+,"USER_Code":"","USER_Name":"zhang","USER_ISDN":"","USER_Mobile":"1358190578",
+"USER_RegisterDate":"2017-07-01 21:07:53","USER_Status":"0","USER_VipLevel":"0","USER_Blance":"0",
+"STORE_ID":"100001","USER_Spend":"0","USER_Score":"0","USER_Password":"123456"}]
+ 
+
+4.登录
+http://127.0.0.1:8080/WebRoot/Login?user_mobile=13581905786&user_password=123456
+http://59.110.152.140:8080/WebRoot/Login?user_mobile=13581905786&user_password=123456
+登录失败 返回 LoginFail
+登录成功 返回 用户基本信息
+[{"USER_ID":"100001","USER_WXID":"weixina","USER_Code":"200001","USER_Name":"张",
+"USER_ISDN":"11026","USER_Mobile":"13581905786","USER_RegisterDate":"2017-07-01 10:53:10.0","USER_Status":"0","USER_VipLevel":"0","USER_Blance":"0","STORE_ID":"0",
+"USER_Spend":"0","USER_Score":"100001","USER_Password":"123456"}]
+
+
+5.获取我的店铺信息
+http://127.0.0.1:8080/WebRoot/GetMyStore?store_id=100001
+http://59.110.152.140:8080/WebRoot/GetMyStore?store_id=100001
+获取失败 返回 GetMyStoreFail
+获取成功 返回 我的店铺基本信息
+[{"STORE_ID":"100001","STORE_Code":"32010001","STORE_Name":"A店",
+"STORE_Phone":"60982366","STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0",
+"STORE_Status":"20","STORE_BookNumber":"0"}]
+
+
+
+6.获取有权限预约的店铺信息
+http://127.0.0.1:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+http://59.110.152.140:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+获取失败 返回 GetLimitsStoreFail
+获取成功 返回 权限店铺基本信息
+[{"STORE_ID":"100001","STORE_Code":"32010001","STORE_Name":"A店","STORE_Phone":"60982366",
+"STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"},{"STORE_ID":"100003","STORE_Code":"32010003","STORE_Name":"C店","STORE_Phone":"60982366",
+"STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"}]
 
 database
 
@@ -17,7 +62,8 @@ ALTER DATABASE  PGSymWeb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `PG_USER` (
   `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
-  `USER_WXID` varchar(50) NOT NULL COMMENT '用户ID',
+  `USER_WXID` varchar(50) NOT NULL COMMENT '用户微信ID',
+  `USER_Password` varchar(50) NOT NULL COMMENT '用户密码',
   `USER_Code` varchar(16) NOT NULL COMMENT '用户编码',
   `USER_Name` varchar(20) NOT NULL COMMENT '姓名',
   `USER_ISDN` varchar(20) DEFAULT NULL COMMENT '身份证号',
@@ -34,9 +80,9 @@ CREATE TABLE `PG_USER` (
 
 insert into PG_USER
 (USER_ID,USER_WXID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
- USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score)
+ USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_Password)
 value ('100001','weixina','200001','张','11026','13581905786','2017-07-01 10:53:10',
-'0','0','0','0','0','100001');
+'0','0','0','0','0','100001','123456');
 
 CREATE TABLE `PG_STORE` (
   `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
@@ -53,19 +99,19 @@ CREATE TABLE `PG_STORE` (
 insert into PG_STORE(
 STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
 STORE_OpeningDate,STORE_Status,STORE_BookNumber)
-value('100001','200001','A店','60982366','南京市',
+value('100001','32010001','A店','60982366','南京市',
 '2017-07-01 10:53:10','20',0);
 
 insert into PG_STORE(
 STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
 STORE_OpeningDate,STORE_Status,STORE_BookNumber)
-value('100002','200002','B店','60982366','南京市',
+value('100002','32010002','B店','60982366','南京市',
 '2017-07-01 10:53:10','20',0);
 
 insert into PG_STORE(
 STORE_ID,STORE_Code,STORE_Name,STORE_Phone,STORE_Position,
 STORE_OpeningDate,STORE_Status,STORE_BookNumber)
-value('100003','200003','C店','60982366','南京市',
+value('100003','32010003','C店','60982366','南京市',
 '2017-07-01 10:53:10','20',0);
 
 CREATE TABLE `PG_GOODS` (

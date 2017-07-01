@@ -59,15 +59,15 @@ public class GetYZM extends HttpServlet {
 			 Random rd = new Random();
 			 int result =rd.nextInt(900000)+100000;
 			 String c=""+result;
-//			 String postUrl="http://sms.jiangukj.com/SendSms.aspx";
-//			 Map<String,String> map = new HashMap<String,String>();
-//			 map.put("action","code");
-//			 map.put("username","zwzfj2");
-//			 map.put("userpass","lglp112522");
-//			 map.put("mobiles",user_mobile);
-//			 map.put("content",result+"");
-//			 map.put("codeid", "3907");
-//			 String aa = httpPost(postUrl, map);
+			 String postUrl="http://sms.jiangukj.com/SendSms.aspx";
+			 Map<String,String> map = new HashMap<String,String>();
+			 map.put("action","code");
+			 map.put("username","zwzfj2");
+			 map.put("userpass","lglp112522");
+			 map.put("mobiles",user_mobile);
+			 map.put("content",result+"");
+			 map.put("codeid", "3907");
+			 String aa = httpPost(postUrl, map);
 //			 System.out.println("=====Check===doPost====11===yanzhengma=11="+aa);
 			 out.write(c);
 		}

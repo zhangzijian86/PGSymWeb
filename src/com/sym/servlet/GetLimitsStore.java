@@ -40,7 +40,11 @@ public class GetLimitsStore extends HttpServlet {
 			String jsonstring=gson.toJson(list);
 			out.write(jsonstring);
 		}else{
-			out.write("GetLimitsStoreFail");
+			Gson gson=new Gson();
+			List<String> list1=new ArrayList<String>();
+			list1.add("Result:GetLimitsStoreFail");
+			String jsonstring=gson.toJson(list1);
+			out.write(jsonstring);
 		}
 		out.flush();
 		out.close();

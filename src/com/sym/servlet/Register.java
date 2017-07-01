@@ -47,8 +47,12 @@ public class Register extends HttpServlet {
 			list1.add(puser);
 			String jsonstring=gson.toJson(list1);
 			out.write(jsonstring);
-		}else{			
-			out.write("RegisterFail");
+		}else{				
+			Gson gson=new Gson();
+			List<String> list1=new ArrayList<String>();
+			list1.add("Result:RegisterFail");
+			String jsonstring=gson.toJson(list1);
+			out.write(jsonstring);
 		}
 		out.flush();
 		out.close();

@@ -42,7 +42,11 @@ public class Login extends HttpServlet {
 			String jsonstring=gson.toJson(list1);
 			out.write(jsonstring);
 		}else{
-			out.write("LoginFail");
+			Gson gson=new Gson();
+			List<String> list1=new ArrayList<String>();
+			list1.add("Result:LoginFail");
+			String jsonstring=gson.toJson(list1);
+			out.write(jsonstring);
 		}
 		out.flush();
 		out.close();

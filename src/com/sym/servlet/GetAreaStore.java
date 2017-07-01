@@ -40,7 +40,11 @@ public class GetAreaStore extends HttpServlet {
 			String jsonstring=gson.toJson(list);
 			out.write(jsonstring);
 		}else{
-			out.write("GetAreaStoreFail");
+			Gson gson=new Gson();
+			List<String> list1=new ArrayList<String>();
+			list1.add("Result:GetAreaStoreFail");
+			String jsonstring=gson.toJson(list1);
+			out.write(jsonstring);
 		}
 		out.flush();
 		out.close();

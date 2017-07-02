@@ -234,4 +234,54 @@ public class DaoImpl
 		}
 		return list;
 	}
+	
+	public int sign(String user_id) 
+	{
+		int b = 0;
+		int i = 0;
+		GetConn getConn=new GetConn();
+		ResultSet rs = null;
+		Connection conn=getConn.getConnection();		
+		try {
+			PreparedStatement ps=conn.prepareStatement(
+					"select Sign_ID from PG_Sign where Sign_Status!=-1 "+
+					"and date_format(Sign_Date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') "+
+					"and USER_ID = ?");
+			ps.setString(1,user_id);
+			System.out.println("==getareastore=="+ps.toString());
+			rs=ps.executeQuery();
+			if (rs.next())
+			{
+				b = 1;
+				return b;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		UUID uuid = UUID.randomUUID();  
+        String struuid = uuid.toString(); 
+		try {
+			PreparedStatement ps=conn.prepareStatement(""+ 
+					"insert into PG_Sign (Sign_ID,Sign_Code,USER_ID,Sign_Status,Sign_Date) "+
+					"value (?,'',?,'0',now());");
+			ps.setString(1,struuid);	
+			ps.setString(2,user_id);
+			i=ps.executeUpdate();	
+			if (i>0)
+			{		
+				b = 2;
+				return b;	
+			}
+			else
+			{
+				b = 0;
+				return b;	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+		return b;
+	}
 }

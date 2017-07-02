@@ -55,6 +55,15 @@ http://59.110.152.140:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970
 "STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"},{"STORE_ID":"100003","STORE_Code":"32010003","STORE_Name":"C店","STORE_Phone":"60982366",
 "STORE_Position":"南京市","STORE_OpeningDate":"2017-07-01 10:53:10.0","STORE_Status":"20","STORE_BookNumber":"0"}]
 
+
+7.签到
+http://127.0.0.1:8080/WebRoot/Sign?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+http://59.110.152.140:8080/WebRoot/Sign?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+签到失败 返回 SignFail
+签到成功 返回 SignSuccess
+已经签到 返回 HasSigned
+
+
 database
 
 create database PGSymWeb;
@@ -155,5 +164,20 @@ value('100001','200001','fe3589c9-29eb-43c8-970b-f9b7f681fb21','100001','0');
 
 insert into PG_Book_Limits(LIMITS_ID,LIMITS_Code,USER_ID,STORE_ID,LIMITS_Status)
 value('100002','200001','fe3589c9-29eb-43c8-970b-f9b7f681fb21','100003','0');
+
+CREATE TABLE `PG_Sign` (
+  `Sign_ID` varchar(36) NOT NULL COMMENT '签到ID',
+  `Sign_Code` varchar(16) DEFAULT NULL COMMENT '签到编码',
+  `USER_ID` varchar(36) NOT NULL COMMENT '用户ID',
+  `Sign_Status`  int(11) NOT NULL DEFAULT '0' COMMENT '签到状态(-1,删除 0,正常 )',  
+  `Sign_Date` datetime DEFAULT NULL COMMENT '签到日期',
+   PRIMARY KEY (`Sign_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='签到表';
+
+insert into PG_Sign (Sign_ID,Sign_Code,USER_ID,Sign_Status,Sign_Date)
+value ('100001','200001','100001','0',now());
+
+
+
 
 

@@ -26,7 +26,7 @@ http://59.110.152.140:8080/WebRoot/Register?user_password=123456&user_mobile=135
  
 
 4.登录
-http://127.0.0.1:8080/WebRoot/Login?user_mobile=13581905786&user_password=123456
+http://127.0.0.1:8080/WebRoot/Login?user_mobile=1358190578&user_password=123456
 http://59.110.152.140:8080/WebRoot/Login?user_mobile=13581905786&user_password=123456
 登录失败 返回 LoginFail
 登录成功 返回 用户基本信息
@@ -57,11 +57,32 @@ http://59.110.152.140:8080/WebRoot/GetLimitsStore?user_id=fe3589c9-29eb-43c8-970
 
 
 7.签到
-http://127.0.0.1:8080/WebRoot/Sign?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
+http://127.0.0.1:8080/WebRoot/Sign?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d9
 http://59.110.152.140:8080/WebRoot/Sign?user_id=fe3589c9-29eb-43c8-970b-f9b7f681fb21
 签到失败 返回 SignFail
 签到成功 返回 SignSuccess
 已经签到 返回 HasSigned
+
+8.预约
+http://127.0.0.1:8080/WebRoot/Book?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d9&store_id=100001&book_time=2017-07-02 09:00:00
+http://59.110.152.140:8080/WebRoot/Book?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d9&store_id=100001&book_time=2017-07-02 09:00:00
+预约成功                 返回  Result:BookSuccess
+所选日期已经约满三次      返回  Result:This is the date to reach the booking line
+所选日期已经取消三次	 返回  Result:This is the date to reach the cancel line
+所选日期此时间段已经约满  返回  Result:Reach the booking line
+
+9.取消预约
+http://127.0.0.1:8080/WebRoot/CancelBook?book_id=9f5dbc98-a238-487e-81f3-567e99f1317f
+http://59.110.152.140:8080/WebRoot/CancelBook?book_id=9f5dbc98-a238-487e-81f3-567e99f1317f
+取消成功  返回  Result:BookSuccess
+取消失败  返回 Result:CancelFail
+
+10.获取所有预约
+http://127.0.0.1:8080/WebRoot/GetMyBooks?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d1&store_id=100001
+http://59.110.152.140:8080/WebRoot/GetMyBooks?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d1&store_id=100001
+无数据 []
+有数据
+[{"BOOK_ID":"ad155fe1-243d-4071-9fed-11b10d65d76e","BOOK_Code":"","USER_ID":"e9b35999-7873-4e1b-b87d-8cfab34e93d1","STORE_ID":"100001","BOOK_Date":"2017-07-02 16:00:00.0","BOOK_Status":"0","BOOK_Remarks":""},{"BOOK_ID":"f7f80736-7c53-47cd-9d45-d0b190c646e8","BOOK_Code":"","USER_ID":"e9b35999-7873-4e1b-b87d-8cfab34e93d1","STORE_ID":"100001","BOOK_Date":"2017-07-02 16:00:00.0","BOOK_Status":"0","BOOK_Remarks":""}]
 
 
 database
@@ -83,6 +104,7 @@ CREATE TABLE `PG_USER` (
   `USER_Blance` varchar(20) NOT NULL DEFAULT '0' COMMENT '账户余额', 
   `USER_Spend` varchar(20) NOT NULL DEFAULT '0' COMMENT '已消费金额', 
   `USER_Score` varchar(20) NOT NULL DEFAULT '0' COMMENT '积分', 
+  `USER_HonorScore` varchar(20) NOT NULL DEFAULT '0' COMMENT '信用积分',  
   `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
@@ -148,6 +170,7 @@ CREATE TABLE `PG_Book` (
   `BOOK_Remarks` varchar(200) DEFAULT NULL COMMENT '预约备注',
    PRIMARY KEY (`BOOK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约表';
+
 
 
 CREATE TABLE `PG_Book_Limits` (

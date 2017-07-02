@@ -16,10 +16,17 @@ public class Pg_user {
 	private String  USER_Spend;
 	private String  USER_Score;	
 	private String  USER_Password;
+	private String  USER_HonorScore;
 	
 	//USER_ID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
 	//USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_WXID
 	
+	public String getUSER_HonorScore() {
+		return USER_HonorScore;
+	}
+	public void setUSER_HonorScore(String uSER_HonorScore) {
+		USER_HonorScore = uSER_HonorScore;
+	}
 	public String getUSER_Password() {
 		return USER_Password;
 	}

@@ -54,6 +54,27 @@
     <servlet-class>com.sym.servlet.Sign</servlet-class>
   </servlet>  
   
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Book</servlet-name>
+    <servlet-class>com.sym.servlet.Book</servlet-class>
+  </servlet>  
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CancelBook</servlet-name>
+    <servlet-class>com.sym.servlet.CancelBook</servlet-class>
+  </servlet>    
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetMyBooks</servlet-name>
+    <servlet-class>com.sym.servlet.GetMyBooks</servlet-class>
+  </servlet>   
+  
   
   <servlet-mapping>
     <servlet-name>GetYZM</servlet-name>
@@ -90,6 +111,20 @@
     <url-pattern>/Sign</url-pattern>
   </servlet-mapping>   
   
+  <servlet-mapping>
+    <servlet-name>Book</servlet-name>
+    <url-pattern>/Book</url-pattern>
+  </servlet-mapping> 
+  
+  <servlet-mapping>
+    <servlet-name>CancelBook</servlet-name>
+    <url-pattern>/CancelBook</url-pattern>
+  </servlet-mapping>  
+  
+  <servlet-mapping>
+    <servlet-name>GetMyBooks</servlet-name>
+    <url-pattern>/GetMyBooks</url-pattern>
+  </servlet-mapping>    
        
   
 </web-app>

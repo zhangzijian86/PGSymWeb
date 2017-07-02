@@ -10,6 +10,8 @@ public class Pg_book {
 	private String BOOK_Status;
 	private String BOOK_Remarks;
 	
+	//BOOK_ID,BOOK_Code,USER_ID,STORE_ID,BOOK_Date,BOOK_Status,BOOK_Remarks
+	
 	public String getBOOK_ID() {
 		return BOOK_ID;
 	}

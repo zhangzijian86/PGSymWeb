@@ -67,6 +67,7 @@ http://59.110.152.140:8080/WebRoot/Sign?user_id=fe3589c9-29eb-43c8-970b-f9b7f681
 http://127.0.0.1:8080/WebRoot/Book?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d9&store_id=100001&book_time=2017-07-02 09:00:00
 http://59.110.152.140:8080/WebRoot/Book?user_id=e9b35999-7873-4e1b-b87d-8cfab34e93d9&store_id=100001&book_time=2017-07-02 09:00:00
 预约成功                 返回  Result:BookSuccess
+分数低于70               返回  Result:HonorScore Less than 70
 所选日期已经约满三次      返回  Result:This is the date to reach the booking line
 所选日期已经取消三次	 返回  Result:This is the date to reach the cancel line
 所选日期此时间段已经约满  返回  Result:Reach the booking line

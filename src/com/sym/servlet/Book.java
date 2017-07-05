@@ -70,6 +70,12 @@ public class Book extends HttpServlet {
 			list.add("Result:BookFail");
 			String jsonstring=gson.toJson(list);
 			out.write(jsonstring);
+		}else if(b==5){				
+			Gson gson=new Gson();
+			List<String> list=new ArrayList<String>();
+			list.add("Result:HonorScore Less than 70");
+			String jsonstring=gson.toJson(list);
+			out.write(jsonstring);
 		}
 		out.flush();
 		out.close();

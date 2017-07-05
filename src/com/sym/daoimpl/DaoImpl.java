@@ -310,9 +310,29 @@ public class DaoImpl
 	{
 		int b = 0;
 		int i = 0;
+		
 		GetConn getConn=new GetConn();
 		ResultSet rs = null;
 		Connection conn=getConn.getConnection();		
+		try {
+			PreparedStatement ps=conn.prepareStatement(
+					"select USER_HonorScore from PG_USER "+
+					"where USER_Status !=-1 and USER_ID = ?;");
+			ps.setString(1,user_id);
+			System.out.println("==book=5="+ps.toString());
+			rs=ps.executeQuery();
+			if (rs.next())
+			{
+				int userHonorScore = rs.getInt("USER_HonorScore");
+				if(userHonorScore<=70){
+					b=5;
+					return b;
+				}				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+			
 		try {
 			PreparedStatement ps=conn.prepareStatement(
 					"select count(BOOK_ID) as dayhas from PG_Book "+ 

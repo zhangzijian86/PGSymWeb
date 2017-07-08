@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<title>人员修改</title>
+    	<link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    	<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	</head>
+    <body  onload="getdata()">
+    	<form  class="form-horizontal" id = "ajaxFrm"  >
+        	<table class="table table-hover table-bordered">
+            	<thead>
+                	<tr>
+                        <th><h3>人员修改</h3></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                        	<label class="control-label" for="inputEmail">手机</label>
+							<div class="controls">
+								<input class="input-xxlarge" type="text" name="USER_Mobile" id="USER_Mobile" size="10" readonly >
+							</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        	<label class="control-label" for="inputEmail">密码</label>
+							<div class="controls">
+								<input class="input-xxlarge" type="text" name="USER_Password" id="USER_Password" size="10"  placeholder="密码"  value ="" >
+							</div>
+                        </td>
+                    </tr>   
+                   <tr>
+                        <td>
+                        	<label class="control-label" for="inputEmail">姓名</label>
+							<div class="controls">
+								<input class="input-xxlarge" type="text" name="USER_Name" id="USER_Name" size="10"  placeholder="姓名" value ="" >
+							</div>
+                        </td>
+                    </tr>
+                     <tr>
+                       <td>
+                       	<label class="control-label" for="inputEmail">积分</label>
+						<div class="controls">
+							<input class="input-xxlarge" type="text" name="USER_Score"  id="USER_Score" placeholder="积分"  size="10"  >
+						</div>
+                       </td>
+              		</tr>  
+                    <tr>                    
+	               		<td>
+	                 	   <label class="control-label" for="inputEmail">信用积分</label>
+	                       <div class="controls">
+	                           <input class="input-xxlarge" type="text" name="USER_HonorScore"  id="USER_HonorScore"  placeholder="信用积分"  size="50"  ></input>
+	                       </div>
+	                   	</td>
+                	</tr> 
+                    <tr>
+                        <td>
+                        	<label class="control-label" for="inputEmail">vip等级</label>
+							<div class="controls">
+								<input class="input-xxlarge" type="text" name="USER_VipLevel" id="USER_VipLevel"  size="20" placeholder="vip等级"  >
+							</div>
+                        </td>
+                   	</tr>                        
+			        <tr>
+                        <td>
+                        	<label class="control-label" for="inputEmail">已消费金额</label>
+							<div class="controls">
+								<input class="input-xxlarge" type="text" name="USER_Spend" id="USER_Spend"   size="20"  placeholder="已消费金额">
+							</div>
+                        </td>
+                    </tr>   
+                     		<tr>                    
+                    		<td>
+                      		<label class="control-label" for="inputEmail">账户余额</label>
+                            <div class="controls">
+                                <input class="input-xxlarge" name="USER_Blance"  id="USER_Blance"  type="text"  placeholder="账户余额" size="20"  ></input>
+                            </div>
+                        	</td>
+                     </tr>    
+                     <tr>                    
+                    		<td>
+                      		<label class="control-label" for="inputEmail">所属门店</label>
+                            <div class="controls">
+                                <input class="input-xxlarge" name="STORE_ID"   id="STORE_ID"  type="text"  size="20" readonly placeholder="所属门店"  ></input>
+                            </div>
+                        	</td>
+                     </tr>                     
+                    <tr>
+                    	<td>
+                        	<div class="controls">                        	    
+                        	    <input type="hidden" name="USER_ID" id ="USER_ID" >
+                                <button class="btn btn-primary"  type="button" onclick="confirm()">确定</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+<script type="text/javascript" src="js/jquery-1.4.1.js"></script>
+<script type="text/javascript">    
+	function getdata(){		
+		var url = document.URL;
+		var tmpUserID = url.split('?')[1];  
+		var USER_ID = tmpUserID.split("=")[1];  
+		 $.ajax({
+		        type: "Post",
+		        url: "GetOneUser?USER_ID="+USER_ID,
+		        dataType: "json",
+		        data: {		            
+		        },
+		        success: function (data) {
+		        	if(data=="error"){		        	
+		        	}else{
+		        		document.getElementById("USER_ID").value=USER_ID;
+		        		document.getElementById("USER_Mobile").value = data[0].USER_Mobile;
+		        		document.getElementById("USER_Name").value = data[0].USER_Name;
+		        		document.getElementById("USER_Password").value = data[0].USER_Password;
+	        			document.getElementById("USER_Score").value = data[0].USER_Score;
+		        		document.getElementById("USER_HonorScore").value = data[0].USER_HonorScore;
+		        		document.getElementById("USER_VipLevel").value = data[0].USER_VipLevel;
+		        		document.getElementById("USER_Spend").value = data[0].USER_Spend;
+		        		document.getElementById("USER_Blance").value = data[0].USER_Blance;
+		        		document.getElementById("STORE_ID").value = data[0].STORE_ID;
+		        	}	        	
+		        },
+		       error: function( msg ) { 
+		    	   alert("获取人员信息失败"); 
+		        }
+		});		
+	}
+	function confirm()
+	{
+		var jsonStr='{"USER_ID":"'+document.getElementById("USER_ID").value+
+				   '","USER_Mobile":"'+document.getElementById("USER_Mobile").value+
+				   '","USER_Name":"'+document.getElementById("USER_Name").value+
+				   '","USER_Password":"'+document.getElementById("USER_Password").value+
+				   '","USER_Score":"'+document.getElementById("USER_Score").value+
+				   '","USER_HonorScore":"'+document.getElementById("USER_HonorScore").value+
+				   '","USER_VipLevel":"'+document.getElementById("USER_VipLevel").value+
+				   '","USER_Spend":"'+document.getElementById("USER_Spend").value+
+				   '","USER_Blance":"'+document.getElementById("USER_Blance").value+
+			       '"}';	
+		$.ajax({
+	        type: "Post",
+	        url: "UpdateUser?jsonStr="+jsonStr,
+	        dataType: "html",
+	        data: {		            
+	        },
+	        success: function (data) {
+	        	if(data=="error"){		        	
+	        	}else{
+	        		window.opener.location.href = window.opener.location.href;
+	        		window.close();  
+	        	}	        	
+	        },
+	       error: function( msg ) { 
+	    	   alert("修改人员信息失败"); 
+	        }
+		});	
+	}
+	
+</script>
+</html>
+

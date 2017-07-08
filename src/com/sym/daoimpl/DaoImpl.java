@@ -585,4 +585,84 @@ public class DaoImpl
 		getConn.closeconn(conn);
     	return i;
     }
+    
+    public List<Pg_user> GetOneUser(String USER_ID) 
+   	{
+   		int rows;
+   		GetConn getConn=new GetConn();
+   		ResultSet rs = null;
+   		Connection conn=getConn.getConnection();
+   		List<Pg_user> list=new ArrayList<Pg_user>();
+   		Pg_user user = null;
+   		try {
+   			PreparedStatement ps=conn.prepareStatement("select USER_ID,USER_Code,USER_Name,"+ 
+					"USER_ISDN,USER_Mobile,date_format(USER_RegisterDate,'%Y-%m-%d %H:%i:%s') USER_RegisterDate,"+
+					"USER_Status,USER_VipLevel,USER_Blance,STORE_ID,"+ 
+					"USER_Spend,USER_Score,USER_WXID,USER_Password,USER_HonorScore "+ 
+					"from PG_USER where USER_ID ='"+USER_ID+"'");
+   			System.out.println("=GetOneUser=sql="+ps.toString());
+   			rs=ps.executeQuery();
+   			if(rs!=null){    		
+   	    		rs.last();
+   	    		rows = rs.getRow();
+   	    		rs.beforeFirst();
+   	    		for(int i=0;i<rows;i++)
+   		    	{	    			
+   		    		rs.next();
+   		    		user = new Pg_user();
+  		    		user.setUSER_ID(rs.getString("USER_ID"));
+  					user.setUSER_Code(rs.getString("USER_Code"));
+  					user.setUSER_Name(rs.getString("USER_Name"));
+  					user.setUSER_ISDN(rs.getString("USER_ISDN"));
+  					user.setUSER_Mobile(rs.getString("USER_Mobile"));
+  					user.setUSER_RegisterDate(rs.getString("USER_RegisterDate"));
+  					user.setUSER_Status(rs.getString("USER_Status"));
+  					user.setUSER_VipLevel(rs.getString("USER_VipLevel"));
+  					user.setUSER_Blance(rs.getString("USER_Blance"));
+  					user.setSTORE_ID(rs.getString("STORE_ID"));
+  					user.setUSER_Spend(rs.getString("USER_Spend"));
+  					user.setUSER_Score(rs.getString("USER_Score"));
+  					user.setUSER_WXID(rs.getString("USER_WXID"));
+  					user.setUSER_Password(rs.getString("USER_Password"));
+  					user.setUSER_HonorScore(rs.getString("USER_HonorScore"));
+   		    		list.add(user);
+   		    	}
+   			}
+   		} catch (SQLException e) {
+   			e.printStackTrace();
+   		}
+   		return list;
+   	}
+    
+    public int UpdateUser(Pg_user puser){
+    	GetConn getConn=new GetConn();
+		int i = 0;
+		Connection conn=getConn.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_USER "
+						 + "set USER_Name = ?,"
+		        	     +" USER_Password = ?,"
+		        	     +" USER_Score = ?,"
+		        	     +" USER_HonorScore = ?,"
+		        	     +" USER_VipLevel = ?,"
+		        	     +" USER_Spend = ?,"
+		        	     +" USER_Blance = ?"
+		        	     + "where USER_ID = ?"
+		        	     );
+			ps.setString(1,puser.getUSER_Name());	
+			ps.setString(2,puser.getUSER_Password());
+			ps.setString(3,puser.getUSER_Score());
+			ps.setString(4,puser.getUSER_HonorScore());
+			ps.setString(5,puser.getUSER_VipLevel());
+			ps.setString(6,puser.getUSER_Spend());
+			ps.setString(7,puser.getUSER_Blance());
+			ps.setString(8,puser.getUSER_ID());
+			System.out.println("=UpdateUser=sql="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+    	return i;
+    }
 }

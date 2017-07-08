@@ -75,7 +75,7 @@ http://59.110.152.140:8080/WebRoot/Book?user_id=e9b35999-7873-4e1b-b87d-8cfab34e
 9.取消预约
 http://127.0.0.1:8080/WebRoot/CancelBook?book_id=9f5dbc98-a238-487e-81f3-567e99f1317f
 http://59.110.152.140:8080/WebRoot/CancelBook?book_id=9f5dbc98-a238-487e-81f3-567e99f1317f
-取消成功  返回  Result:BookSuccess
+取消成功  返回 Result:CancelSuccess
 取消失败  返回 Result:CancelFail
 
 10.获取所有预约

@@ -467,7 +467,7 @@ public class DaoImpl
 		try {
 			PreparedStatement ps=conn.prepareStatement(
 					"select BOOK_ID,BOOK_Code,USER_ID,STORE_ID,"+ 
-					"BOOK_Date,BOOK_Status,BOOK_Remarks from PG_Book where "+
+					"date_format(BOOK_Date,'%Y-%m-%d %H:%i:%s') BOOK_Date ,BOOK_Status,BOOK_Remarks from PG_Book where "+
 					"USER_ID = ? and STORE_ID = ? and BOOK_Status=0");
 			ps.setString(1,user_id);
 			ps.setString(2,store_id);
@@ -490,4 +490,99 @@ public class DaoImpl
 		}
 		return list;
 	}
+	
+	//查询所总条数   
+    public int getCount(String name,String Condition){   
+    	String sql="select count(*) as pageCount from "+name+" "+Condition;   
+    	System.out.println(sql);
+    	int i=-1;   
+    	GetConn getConn=new GetConn();
+    	ResultSet rs = null;
+    	Connection conn=getConn.getConnection();
+    	try {
+    		PreparedStatement ps=conn.prepareStatement(sql);
+    		rs=ps.executeQuery();
+    		if(rs!=null){    					
+    			rs.next();  
+    			i=rs.getInt("pageCount");  
+    		}
+    	} catch (SQLException e) {   
+    		e.printStackTrace();   
+    	}   
+    	return i;   
+    } 
+    
+    public List<Pg_user> GetAllUsers(String currentPage,String eachPage,String store_id) 
+  	{
+  		int rows;
+  		GetConn getConn=new GetConn();
+  		ResultSet rs = null;
+  		Connection conn=getConn.getConnection();
+  		List<Pg_user> list=new ArrayList<Pg_user>();
+  		Pg_user user = null;
+  		try {
+  			PreparedStatement ps=conn.prepareStatement("select USER_ID,USER_Code,USER_Name,"+ 
+					"USER_ISDN,USER_Mobile,date_format(USER_RegisterDate,'%Y-%m-%d %H:%i:%s') USER_RegisterDate,"+
+					"USER_Status,USER_VipLevel,USER_Blance,STORE_ID,"+ 
+					"USER_Spend,USER_Score,USER_WXID,USER_Password,USER_HonorScore "+ 
+					"from PG_USER where USER_Status!=-1 order by USER_RegisterDate desc  limit ?, ?");
+  			int intcurrentPage = Integer.parseInt(currentPage);
+  			int inteachPage = Integer.parseInt(eachPage);
+  			if(currentPage.equals("0")){
+  				ps.setInt(1, 0);
+  			}else{
+  				ps.setInt(1, (intcurrentPage-1)*inteachPage);
+  			}
+  			ps.setInt(2, inteachPage);
+  			rs=ps.executeQuery();
+  			if(rs!=null){    		
+  	    		rs.last();
+  	    		rows = rs.getRow();
+  	    		rs.beforeFirst();
+  	    		for(int i=0;i<rows;i++)
+  		    	{	    			
+  		    		rs.next();
+  		    		user = new Pg_user();
+  		    		user.setUSER_ID(rs.getString("USER_ID"));
+  					user.setUSER_Code(rs.getString("USER_Code"));
+  					user.setUSER_Name(rs.getString("USER_Name"));
+  					user.setUSER_ISDN(rs.getString("USER_ISDN"));
+  					user.setUSER_Mobile(rs.getString("USER_Mobile"));
+  					user.setUSER_RegisterDate(rs.getString("USER_RegisterDate"));
+  					user.setUSER_Status(rs.getString("USER_Status"));
+  					user.setUSER_VipLevel(rs.getString("USER_VipLevel"));
+  					user.setUSER_Blance(rs.getString("USER_Blance"));
+  					user.setSTORE_ID(rs.getString("STORE_ID"));
+  					user.setUSER_Spend(rs.getString("USER_Spend"));
+  					user.setUSER_Score(rs.getString("USER_Score"));
+  					user.setUSER_WXID(rs.getString("USER_WXID"));
+  					user.setUSER_Password(rs.getString("USER_Password"));
+  					user.setUSER_HonorScore(rs.getString("USER_HonorScore"));				
+  		    		list.add(user);
+  		    	}
+  			}
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
+  		return list;
+  	}
+    
+    public int DeleteUser(Pg_user puser){
+    	GetConn getConn=new GetConn();
+		int i = 0;
+		Connection conn=getConn.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_USER "
+						 + "set USER_Status = -1 "
+		        	     + "where USER_ID = ?"
+		        	     );
+			ps.setString(1,puser.getUSER_ID());	
+			System.out.println("=DeleteOrder=sql="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+    	return i;
+    }
 }

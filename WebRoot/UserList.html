@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	    <meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<title>人员列表</title>
+    	<!-- Bootstrap -->
+    	<link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    	<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	</head>
+    <body onload="getdata()">
+    	<form class="form-horizontal" id = "ajaxFrm" >
+        	<table class="table table-hover table-bordered">
+            	<thead>
+                	<tr>
+                        <th colspan="8"><h3>人员列表</h3></th>     
+                        <th><h3><a href="javascript:adduser()">添加人员</a></h3></th>    
+                        <th><h3><a href="javascript:history.go(-1)">返回</a></h3></th>                                                               
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+				 <tr class="warning">
+                        <td width="10%">
+                        	手机
+                        </td >
+                       <td width="10%">
+                        	姓名
+                        </td>
+                        <td width="7%">
+                        	积分
+                        </td> 
+                        <td width="7%">
+                        	信用积分
+                        </td>
+                        <td width="5%">
+                        	vip等级
+                        </td>
+                        <td width="10%">
+                        	已消费金额
+                        </td>
+                        <td width="10%">
+                        	账户余额
+                        </td>
+                        <td width="17%">
+                        	所属门店
+                        </td>
+                        <td width="14%">
+                        	注册日期
+                        </td>
+                        <td width="10%">
+                        	删除
+                        </td>
+                    </tr>                  
+                    <tr>
+                        <td width="10%">
+                        	<a href="javascript:modify();" target="_blank"></a>
+                        </td >
+                        <td width="10%">                    	
+                        </td>
+                        <td width="10%">                   
+                        </td>
+                        <td width="7%">                              	        
+                        </td>  
+                        <td width="7%">                              	        
+                        </td> 
+                        <td width="5%">                              	        
+                        </td>
+                        <td width="10%">                              	        
+                        </td>
+                        <td width="17%">                              	        
+                        </td>
+                        <td width="14%">                              	        
+                        </td>
+                        <td width="10%">                              	        
+                        </td>
+                    </tr>
+                    <tr class="warning">
+                        <td colspan="1" >
+                        </td >
+                        <td colspan="8" align="center">
+                        <a href="javascript:paging(1);" target="_blank">首页</a>                        	
+                        	
+						<a href="javascript:paging();" target="_blank">末页</a>
+                        </td>
+                        <td colspan="1" >
+                        </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+<script type="text/javascript" src="js/jquery-1.4.1.js"></script>
+<script type="text/javascript">
+	var url = document.URL;
+	var htmltmp="";
+	var count=-1;
+	function getdata(){
+		//alert("==url=="+url);		
+		htmltmp="<tr class='warning'><td width='10%'>手机</td >"+
+		"<td width='10%'>姓名</td><td width='7%'>积分</td>"+
+		"<td width='7%'>信用积分</td><td width='5%'>vip等级</td>"+
+		"<td width='10%'>已消费金额</td><td width='10%'>账户余额</td>"+
+		"<td width='17%'>所属门店</td><td width='14%'>注册日期</td>"+
+		"<td width='15%'>删除</td></tr>";
+		 $.ajax({
+		        type: "Post",
+		        url: "GetCount?Name=PG_USER&Condition=where USER_Status != -1",
+		        dataType: "html",
+		        data: {		            
+		        },
+		        success: function (data) {
+		        	if(data=="error"){
+		        		count = -1;
+		        	}else{
+		        		count = data;
+		        		init(1);
+		        	}	        	
+		        },
+		       error: function( msg ) { 
+		    	   alert("获取人员信息失败"); 
+		        }
+		});		
+	}	
+	function init(currentPage) {
+		if(count!=-1){
+			 $.ajax({
+			        type: "Post",
+			        url: "GetAllUsers?CurrentPage="+currentPage+"&EachPage=10",
+			        dataType: "json",
+			        data: {		            
+			        },
+			        success: function (data) {
+			        	if(data=="error"){
+			        		alert("帐号或密码错误!");
+			        	}else{			        		
+                        	for(var i=0;i<data.length;i++){ 
+                           		htmltmp=htmltmp+"<tr><td width='10%'><a href='javascript:modify(\""+data[i].USER_Mobile+"\");' target='_blank'>"+data[i].USER_Mobile+"</a></td>"+
+                           		"<td width='10%'>"+data[i].USER_Name+"</td><td width='7%'>"+data[i].USER_Score+"</td>"+
+                           		"<td width='7%'>"+data[i].USER_HonorScore+"</td><td width='5%'>"+data[i].USER_VipLevel+"</td>"+
+                           		"<td width='10%'>"+data[i].USER_Spend+"</td><td width='10%'>"+data[i].USER_Blance+"</td>"+
+                           		"<td width='17%'>"+data[i].STORE_ID+"</td><td width='14%'>"+data[i].USER_RegisterDate+"</td>"+
+                           		"<td width='11%'><a href='javascript:deleteUser(\""+data[i].USER_ID+"\");' target='_blank'>"+"删除"+"</a></td></tr>";	
+                        	} 
+                          end();
+			        	}	        	
+			        },
+			       error: function( msg ) { 
+			    	   alert("获取人员信息失败"); 
+			       }
+			});				
+		}
+	}
+	function end(){
+		htmltmp=htmltmp+"<tr class='warning'><td colspan='1' ></td ><td colspan='8' align='center'><a href='javascript:paging(1);'"+
+		"target='_blank'>首页&nbsp</a>";
+		var sum = count*1+1;
+		for(var j = 1; j<sum; j++){ 
+			htmltmp=htmltmp+"<a href='javascript:paging("+j+");' target='_blank'>"+j+"</a>"      
+        }
+		htmltmp=htmltmp+"<a href='javascript:paging("+count+");' target='_blank'>&nbsp末页</a></td><td colspan='1' ></td></tr>";
+		document.getElementById('tbody').innerHTML=htmltmp;
+	}
+	function paging(currentPage) {
+		htmltmp="<tr class='warning'><td width='10%'>手机</td >"+
+		"<td width='10%'>姓名</td><td width='7%'>积分</td>"+
+		"<td width='7%'>信用积分</td><td width='5%'>vip等级</td>"+
+		"<td width='10%'>已消费金额</td><td width='10%'>账户余额</td>"+
+		"<td width='17%'>所属门店</td><td width='14%'>注册日期</td>"+
+		"<td width='15%'>删除</td></tr>";
+		init(currentPage)
+	}
+	function deleteUser(USER_ID){
+        if (confirm("你确定删除人员吗？")) {  
+        	var jsonStr='{"USER_ID":"'+USER_ID+
+ 	        '"}';	
+ 			$.ajax({
+	 			 type: "Post",
+	 			 url: "DeleteUser?jsonStr="+jsonStr,
+	 			 dataType: "html",
+	 			 data: {		            
+	 			 },
+	 			 success: function (data) {
+	 			 	if(data=="error"){		        	
+	 			 	}else{
+	 			 		window.location.reload();
+	 			 	}	        	
+	 			 },
+	 			error: function( msg ) { 
+	 				   alert("删除人员信息失败"); 
+	 			 }
+ 			});	
+        }	
+	}	
+	
+	function modify(UserCode) {		
+		window.open("UserModify.html?userCode=" + UserCode, "",	"height=700, width=800");
+	}
+	function adduser(){
+		window.open("UserAdd.html", "",	"height=700, width=800");
+		//window.location.href="UserAdd.html"
+	}
+</script>
+</html>
+

@@ -5,6 +5,8 @@ public class Pg_book {
 	private String BOOK_ID;
 	private String BOOK_Code;
 	private String USER_ID;
+	private String USER_Name;
+	private String USER_Mobile;
 	private String STORE_ID;
 	private String BOOK_Date;
 	private String BOOK_Status;
@@ -54,4 +56,16 @@ public class Pg_book {
 	public void setBOOK_Remarks(String bOOK_Remarks) {
 		BOOK_Remarks = bOOK_Remarks;
 	}	
+	public String getUSER_Name() {
+		return USER_Name;
+	}
+	public void setUSER_Name(String uSER_Name) {
+		USER_Name = uSER_Name;
+	}
+	public String getUSER_Mobile() {
+		return USER_Mobile;
+	}
+	public void setUSER_Mobile(String uSER_Mobile) {
+		USER_Mobile = uSER_Mobile;
+	}
 }

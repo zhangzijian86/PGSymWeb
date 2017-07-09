@@ -110,6 +110,27 @@
     <servlet-class>com.sym.servlet.UpdateUser</servlet-class>
   </servlet>  
   
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetAllBooks</servlet-name>
+    <servlet-class>com.sym.servlet.GetAllBooks</servlet-class>
+  </servlet> 
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DoBook</servlet-name>
+    <servlet-class>com.sym.servlet.DoBook</servlet-class>
+  </servlet>   
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>NotDoBook</servlet-name>
+    <servlet-class>com.sym.servlet.NotDoBook</servlet-class>
+  </servlet>   
+  
   
   <servlet-mapping>
     <servlet-name>GetYZM</servlet-name>
@@ -185,6 +206,21 @@
     <servlet-name>UpdateUser</servlet-name>
     <url-pattern>/UpdateUser</url-pattern>
   </servlet-mapping>   
+  
+  <servlet-mapping>
+    <servlet-name>GetAllBooks</servlet-name>
+    <url-pattern>/GetAllBooks</url-pattern>
+  </servlet-mapping>   
+  
+  <servlet-mapping>
+    <servlet-name>DoBook</servlet-name>
+    <url-pattern>/DoBook</url-pattern>
+  </servlet-mapping>    
+  
+  <servlet-mapping>
+    <servlet-name>NotDoBook</servlet-name>
+    <url-pattern>/NotDoBook</url-pattern>
+  </servlet-mapping>  
        
   
 </web-app>

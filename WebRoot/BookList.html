@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	    <meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<title>预约列表</title>
+    	<!-- Bootstrap -->
+    	<link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    	<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	</head>
+    <body onload="getdata()">
+    	<form class="form-horizontal" id = "ajaxFrm" >
+        	<table class="table table-hover table-bordered">
+            	<thead>
+                	<tr>
+                        <th colspan="1"><h3>预约列表</h3></th>   
+                        <th colspan="4" align="center"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp
+                        手机号码：<input type='text' id='mobileTmp' size='10' maxlength='20' value ='' >&nbsp&nbsp&nbsp&nbsp
+                        预约日期：<input type='text' id='dateTmp' size='10' maxlength='20' value ='' >&nbsp&nbsp&nbsp&nbsp
+                        <button class="btn btn-primary"  type="button" onclick="serach()">查询</button>
+                        </h5></th> 
+                        <th><h3><a href="javascript:user()">人员管理</a></h3></th>                                                  
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+				 <tr class="warning">
+                        <td width="16%">
+                        	用户手机号码
+                        </td >
+                       <td width="16%">
+                        	用户名称
+                        </td>
+                        <td width="16%">
+                        	所属门店
+                        </td> 
+                        <td width="16%">
+                        	预约日期
+                        </td>
+                        <td width="16%">
+                        	状态
+                        </td>
+                        <td width="20%">
+                        	操作
+                        </td>
+                    </tr>                  
+                    <tr>
+                       <td width="16%">
+                        </td >
+                       <td width="16%">
+                        </td>
+                        <td width="16%">
+                        </td> 
+                        <td width="16%">
+                        </td>
+                        <td width="16%">
+                        </td>
+                        <td width="20%">
+                        </td>                      
+                    </tr>
+                    <tr class="warning">
+                        <td colspan="1" >
+                        </td >
+                        <td colspan="4" align="center">
+                        <a href="javascript:paging(1);" target="_blank">首页</a>                        	
+                        	
+						<a href="javascript:paging();" target="_blank">末页</a>
+                        </td>
+                        <td colspan="1" >
+                        </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+<script type="text/javascript" src="js/jquery-1.4.1.js"></script>
+<script type="text/javascript">
+	var htmltmp="";
+	var count=-1;
+	var url = document.URL;
+	function getdata(){		
+		htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
+		"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
+		"<td width='16%'>状态</td><td width='24%'>操作</td>";
+		 $.ajax({
+		        type: "Post",
+		        url: "GetCount?Name=PG_Book&Condition=where BOOK_Status != -1",
+		        dataType: "html",
+		        data: {		            
+		        },
+		        success: function (data) {
+		        	if(data=="error"){
+		        		count = -1;
+		        	}else{
+		        		count = data;
+		        		init(1);
+		        	}	        	
+		        },
+		       error: function( msg ) { 
+		    	   alert("获取订单信息失败"); 
+		        }
+		});		
+	}	
+	function init(currentPage) {
+		var mobileTmp = document.getElementById("mobileTmp").value;
+		var dateTmp = document.getElementById("dateTmp").value;
+		if(count!=-1){
+			 $.ajax({
+			        type: "Post",
+			        url: "GetAllBooks?mobileTmp="+mobileTmp+"&dateTmp="+dateTmp+"&CurrentPage="+currentPage+"&EachPage=10",
+			        dataType: "json",
+			        data: {		            
+			        },
+			        success: function (data) {
+			        	if(data=="error"){
+			        		alert("帐号或密码错误!");
+			        	}else{			     
+			        		//alert("==data.length==="+data.length);
+                        	for(var i=0;i<data.length;i++){   
+                        		 htmltmp=htmltmp+"<tr><td width='16%'>"+data[i].USER_Mobile+"</td>";    
+                        		 htmltmp=htmltmp+"<td width='16%'>"+data[i].USER_Name+"</td>";             
+                        		 htmltmp=htmltmp+"<td width='16%'>"+data[i].STORE_ID+"</td>";             
+                        		 htmltmp=htmltmp+"<td width='16%'>"+data[i].BOOK_Date+"</td>";    
+                        		 if(data[i].BOOK_Status == "0"){
+                        			 htmltmp=htmltmp+"<td width='16%'>未操作</td>"; 
+                        			 htmltmp=htmltmp+"<td width='20%'><a href='javascript:dobook(\""+data[i].USER_ID+"\",\""+data[i].BOOK_ID+"\");' target='_blank'>确认到店</a>"
+                              		 htmltmp=htmltmp+"&nbsp&nbsp&nbsp&nbsp<a href='javascript:notdobook(\""+data[i].USER_ID+"\",\""+data[i].BOOK_ID+"\");' target='_blank'>未到店</a></td></tr>";	                       		 
+                        		 }else if(data[i].BOOK_Status == "1"){
+                        			 htmltmp=htmltmp+"<td width='16%'>已取消</td>";  
+                        			 htmltmp=htmltmp+"<td width='20%'></td></tr>";	  
+                        		 }else if(data[i].BOOK_Status == "2"){
+                        			 htmltmp=htmltmp+"<td width='16%'>已完成</td>";  
+                        			 htmltmp=htmltmp+"<td width='20%'></td></tr>";	  
+                        		 }                         		
+                        	} 
+                           end();
+			        	}	        	
+			        },
+			       error: function( msg ) { 
+			    	   alert("获取订单信息失败"); 
+			       }
+			});				
+		}
+	}
+	function end(){
+		htmltmp=htmltmp+"<tr class='warning'><td colspan='1' ></td ><td colspan='4' align='center'><a href='javascript:paging(1);'"+
+		"target='_blank'>首页&nbsp</a>";
+		var sum = count*1+1;
+		for(var j = 1; j<sum; j++){ 
+			htmltmp=htmltmp+"<a href='javascript:paging("+j+");' target='_blank'>"+j+"</a>"      
+        }
+		htmltmp=htmltmp+"<a href='javascript:paging("+count+");' target='_blank'>&nbsp末页</a></td><td colspan='1' ></td></tr>";
+		document.getElementById('tbody').innerHTML=htmltmp;
+	}	
+	function paging(currentPage) {
+		htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
+		"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
+		"<td width='16%'>状态</td><td width='24%'>操作</td>";
+		init(currentPage)
+	}
+
+	function dobook(USER_ID,BOOK_ID){
+		if (confirm("确定提交吗？")) { 	
+			$.ajax({
+				 type: "Post",
+				 url: "DoBook?USER_ID="+USER_ID+"&BOOK_ID="+BOOK_ID,
+				 dataType: "html",
+				 data: {		            
+				 },
+				 success: function (data) {
+				 	if(data=="error"){		        	
+				 	}else{
+				 		window.location.reload();
+				 	}	        	
+				 },
+				error: function( msg ) { 
+					   alert("删除订单信息失败"); 
+				 }
+			});	
+		}
+	}	
+	function notdobook(USER_ID,BOOK_ID){
+		if (confirm("确定提交吗？")) { 	
+			$.ajax({
+				 type: "Post",
+				 url: "NotDoBook?USER_ID="+USER_ID+"&BOOK_ID="+BOOK_ID,
+				 dataType: "html",
+				 data: {		            
+				 },
+				 success: function (data) {
+				 	if(data=="error"){		        	
+				 	}else{
+				 		window.location.reload();
+				 	}	        	
+				 },
+				error: function( msg ) { 
+					   alert("删除订单信息失败"); 
+				 }
+			});	
+		}
+	}	
+	
+	function user(){
+		window.location.href="UserList.html"
+	}
+	
+	function serach(){
+		htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
+		"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
+		"<td width='16%'>状态</td><td width='24%'>操作</td>";
+		init(1);
+	}
+</script>
+</html>
+

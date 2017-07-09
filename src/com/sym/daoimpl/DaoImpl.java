@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.sym.bean.Pg_book;
-import com.sym.bean.Pg_homeinfo;
 import com.sym.bean.Pg_store;
 import com.sym.bean.Pg_user;
 import com.sym.db.GetConn;
@@ -494,7 +493,7 @@ public class DaoImpl
 	//查询所总条数   
     public int getCount(String name,String Condition){   
     	String sql="select count(*) as pageCount from "+name+" "+Condition;   
-    	System.out.println(sql);
+    	System.out.println("===getCount==="+sql);
     	int i=-1;   
     	GetConn getConn=new GetConn();
     	ResultSet rs = null;
@@ -665,4 +664,122 @@ public class DaoImpl
 		getConn.closeconn(conn);
     	return i;
     }
+    
+    public List<Pg_book> GetAllBooks(String mobileTmp,String dateTmp,String currentPage,String eachPage) 
+   	{
+   		int rows;
+   		GetConn getConn=new GetConn();
+   		ResultSet rs = null;
+   		Connection conn=getConn.getConnection();
+   		List<Pg_book> list=new ArrayList<Pg_book>();
+   		Pg_book book = null;
+   		String strTmp = "";
+   		if(mobileTmp!=null&&!mobileTmp.trim().equals("")){
+   			strTmp = "and ( USER_Mobile = '"+mobileTmp+"' ) ";
+   		}
+   		if(dateTmp!=null&&!dateTmp.trim().equals("")){
+   			strTmp = "and ( date_format(BOOK_Date,'%Y-%m-%d') = date_format('"+dateTmp+"','%Y-%m-%d') ) ";
+   		}
+   		try {
+   			PreparedStatement ps=conn.prepareStatement(
+   					"select BOOK_ID,PG_Book.USER_ID,PG_Book.STORE_ID,date_format(BOOK_Date,'%Y-%m-%d %H:%i:%s') BOOK_Date"+ 
+   					",USER_Mobile,USER_Name,BOOK_Status "+
+   					"from PG_Book "+
+   					"left join PG_USER on PG_Book.USER_ID = PG_USER.USER_ID "+
+   					"where PG_Book.BOOK_Status != -1 "+ strTmp +		
+   					"order by PG_Book.BOOK_Date desc limit ?, ?");
+   			int intcurrentPage = Integer.parseInt(currentPage);
+   			int inteachPage = Integer.parseInt(eachPage);
+   			if(currentPage.equals("0")){
+   				ps.setInt(1, 0);
+   			}else{
+   				ps.setInt(1, (intcurrentPage-1)*inteachPage);
+   			}
+   			ps.setInt(2, inteachPage);
+   			System.out.println("=GetAllOrders=sql="+ps.toString());
+   			rs=ps.executeQuery();
+   			if(rs!=null){    		
+   	    		rs.last();
+   	    		rows = rs.getRow();
+   	    		rs.beforeFirst();
+   	    		for(int i=0;i<rows;i++)
+   		    	{	    			
+   		    		rs.next();
+   		    		book = new Pg_book();
+   		    		book.setUSER_Mobile(rs.getString("USER_Mobile"));   	
+   		    		book.setUSER_Name(rs.getString("USER_Name"));   
+   		    		book.setSTORE_ID(rs.getString("STORE_ID"));  
+   		    		book.setBOOK_Date(rs.getString("BOOK_Date"));    
+   		    		book.setBOOK_ID(rs.getString("BOOK_ID"));    
+   		    		book.setUSER_ID(rs.getString("USER_ID"));    
+   		    		book.setBOOK_Status(rs.getString("BOOK_Status"));   
+   		    		list.add(book);
+   		    	}
+   			}
+   		} catch (SQLException e) {
+   			e.printStackTrace();
+   		}
+   		return list;
+   	}
+    
+    public int DoBook(String USER_ID,String BOOK_ID){
+    	GetConn getConn=new GetConn();
+		int i = 0;
+		Connection conn=getConn.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_USER "
+						 + "set USER_HonorScore = 100 "
+		        	     + "where USER_ID = ?"
+		        	     );
+			ps.setString(1,USER_ID);	
+			System.out.println("=DoBook=sql1="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_Book "
+						 + "set BOOK_Status = 2 "
+		        	     + "where BOOK_ID = ?"
+		        	     );
+			ps.setString(1,BOOK_ID);	
+			System.out.println("=DoBook=sql2="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+    	return i;
+    }
+    
+    public int NotDoBook(String USER_ID,String BOOK_ID){
+    	GetConn getConn=new GetConn();
+		int i = 0;
+		Connection conn=getConn.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_USER "
+						 + "set USER_HonorScore = USER_HonorScore-10 "
+		        	     + "where USER_ID = ?"
+		        	     );
+			ps.setString(1,USER_ID);	
+			System.out.println("=NotDoBook=sql1="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_Book "
+						 + "set BOOK_Status = 2 "
+		        	     + "where BOOK_ID = ?"
+		        	     );
+			ps.setString(1,BOOK_ID);	
+			System.out.println("=NotDoBook=sql2="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+    	return i;
+    }
+    
 }

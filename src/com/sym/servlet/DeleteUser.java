@@ -25,6 +25,7 @@ public class DeleteUser extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {		
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");

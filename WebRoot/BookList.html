@@ -82,28 +82,39 @@
 	var htmltmp="";
 	var count=-1;
 	var url = document.URL;
+	var tmpall = url.split('?')[1];  
+	var tmpMobile = tmpall.split("&")[0];  
+	var USER_Mobile = tmpMobile.split('=')[1];  
+	var tmpStatus = tmpall.split("&")[1];  
+	var USER_Status = tmpStatus.split("=")[1]; 
 	function getdata(){		
-		htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
-		"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
-		"<td width='16%'>状态</td><td width='24%'>操作</td>";
-		 $.ajax({
-		        type: "Post",
-		        url: "GetCount?Name=PG_Book&Condition=where BOOK_Status != -1",
-		        dataType: "html",
-		        data: {		            
-		        },
-		        success: function (data) {
-		        	if(data=="error"){
-		        		count = -1;
-		        	}else{
-		        		count = data;
-		        		init(1);
-		        	}	        	
-		        },
-		       error: function( msg ) { 
-		    	   alert("获取订单信息失败"); 
-		        }
-		});		
+		//alert("===USER_Mobile=="+USER_Mobile);
+		//alert("===USER_Status=="+USER_Status);
+		if(USER_Mobile==null||USER_Mobile==""||USER_Mobile=="undefined"){
+			alert("无权访问!");
+		}else{
+			htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
+			"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
+			"<td width='16%'>状态</td><td width='24%'>操作</td>";
+			 $.ajax({
+			        type: "Post",
+			        url: "GetCount?Name=PG_Book&Condition=where BOOK_Status != -1",
+			        dataType: "html",
+			        data: {		            
+			        },
+			        success: function (data) {
+			        	if(data=="error"){
+			        		count = -1;
+			        	}else{
+			        		count = data;
+			        		init(1);
+			        	}	        	
+			        },
+			       error: function( msg ) { 
+			    	   alert("获取订单信息失败"); 
+			        }
+			});	
+		}
 	}	
 	function init(currentPage) {
 		var mobileTmp = document.getElementById("mobileTmp").value;
@@ -205,14 +216,22 @@
 	}	
 	
 	function user(){
-		window.location.href="UserList.html"
+		if(USER_Mobile==null||USER_Mobile==""||USER_Mobile=="undefined"){
+			alert("无权访问!");
+		}else{
+			window.location.href="UserList.html?USER_Mobile="+USER_Mobile+"&USER_Status="+USER_Status;
+		}
 	}
 	
 	function serach(){
 		htmltmp="<tr class='warning'><td width='16%'>用户手机号码</td >"+
 		"<td width='16%'>用户名称</td><td width='16%'>所属门店</td><td width='16%'>预约日期</td>"+
 		"<td width='16%'>状态</td><td width='24%'>操作</td>";
-		init(1);
+		if(USER_Mobile==null||USER_Mobile==""||USER_Mobile=="undefined"){
+			alert("无权访问!");
+		}else{
+			init(1);
+		}		
 	}
 </script>
 </html>

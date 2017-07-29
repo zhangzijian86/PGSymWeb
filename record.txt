@@ -85,6 +85,15 @@ http://59.110.152.140:8080/WebRoot/GetMyBooks?user_id=e9b35999-7873-4e1b-b87d-8c
 有数据
 [{"BOOK_ID":"ad155fe1-243d-4071-9fed-11b10d65d76e","BOOK_Code":"","USER_ID":"e9b35999-7873-4e1b-b87d-8cfab34e93d1","STORE_ID":"100001","BOOK_Date":"2017-07-02 16:00:00.0","BOOK_Status":"0","BOOK_Remarks":""},{"BOOK_ID":"f7f80736-7c53-47cd-9d45-d0b190c646e8","BOOK_Code":"","USER_ID":"e9b35999-7873-4e1b-b87d-8cfab34e93d1","STORE_ID":"100001","BOOK_Date":"2017-07-02 16:00:00.0","BOOK_Status":"0","BOOK_Remarks":""}]
 
+11.修改用户信息
+http://127.0.0.1:8080/WebRoot/UpdateUserWX?user_mobile=1358190578&user_birthday=2017-02-02&user_skintype=1-2-3
+http://59.110.152.140:8080/WebRoot/UpdateUserWX?user_mobile=1358190578&user_birthday=2017-02-02&user_skintype=1-2-3
+结果：
+失败 返回 error
+成功 返回 ok
+1,中性皮肤 2,油性皮肤 3,干性皮肤 4,混合性皮肤 5,敏感性皮肤  中间用 - 分开  1-2-3
+
+
 
 database
 
@@ -109,6 +118,9 @@ CREATE TABLE `PG_USER` (
   `STORE_ID` varchar(36) NOT NULL COMMENT '门店ID',
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+alter table PG_USER add column USER_Birthday datetime DEFAULT NULL;
+alter table PG_USER add column USER_SkinType varchar(50) DEFAULT NULL;
 
 insert into PG_USER
 (USER_ID,USER_WXID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,

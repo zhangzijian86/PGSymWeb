@@ -103,7 +103,7 @@ public class DaoImpl
 			PreparedStatement ps=conn.prepareStatement(
 					"select USER_ID,USER_Code,USER_Name,"+ 
 					"USER_ISDN,USER_Mobile,USER_RegisterDate,"+
-					"USER_Status,USER_VipLevel,USER_Blance,STORE_ID,"+ 
+					"USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Birthday,USER_SkinType,"+ 
 					"USER_Spend,USER_Score,USER_WXID,USER_Password,USER_HonorScore "+ 
 					"from PG_USER where USER_Mobile = ? and USER_Password=? and USER_Status!=-1");
 			ps.setString(1,user_mobile);
@@ -127,7 +127,9 @@ public class DaoImpl
 				user.setUSER_Score(rs.getString("USER_Score"));
 				user.setUSER_WXID(rs.getString("USER_WXID"));
 				user.setUSER_Password(rs.getString("USER_Password"));
-				user.setUSER_HonorScore(rs.getString("USER_HonorScore"));				
+				user.setUSER_HonorScore(rs.getString("USER_HonorScore"));	
+				user.setUSER_Birthday(rs.getString("USER_Birthday"));	
+				user.setUSER_SkinType(rs.getString("USER_SkinType"));				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -782,4 +784,25 @@ public class DaoImpl
     	return i;
     }
     
+    public int updateUserWX(String user_mobile,String user_birthday,String user_skintype){
+    	GetConn getConn=new GetConn();
+		int i = 0;
+		Connection conn=getConn.getConnection();
+		try {
+			PreparedStatement ps=conn.prepareStatement("update PG_USER "
+						 + "set user_birthday = ?,"
+		        	     +" user_skintype = ? "		        	   
+		        	     + "where user_mobile = ?"
+		        	     );
+			ps.setString(1,user_birthday);	
+			ps.setString(2,user_skintype);
+			ps.setString(3,user_mobile);
+			System.out.println("=updateUserWX=sql="+ps.toString());
+			i=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		getConn.closeconn(conn);
+    	return i;
+    }
 }

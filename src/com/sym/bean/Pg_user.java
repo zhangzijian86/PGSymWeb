@@ -17,10 +17,24 @@ public class Pg_user {
 	private String  USER_Score;	
 	private String  USER_Password;
 	private String  USER_HonorScore;
+	private String  USER_Birthday;
+	private String  USER_SkinType;
 	
 	//USER_ID,USER_Code,USER_Name,USER_ISDN,USER_Mobile,USER_RegisterDate,
-	//USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_WXID
+	//USER_Status,USER_VipLevel,USER_Blance,STORE_ID,USER_Spend,USER_Score,USER_WXID,USER_Birthday,USER_SkinType
 	
+	public String getUSER_Birthday() {
+		return USER_Birthday;
+	}
+	public void setUSER_Birthday(String uSER_Birthday) {
+		USER_Birthday = uSER_Birthday;
+	}
+	public String getUSER_SkinType() {
+		return USER_SkinType;
+	}
+	public void setUSER_SkinType(String uSER_SkinType) {
+		USER_SkinType = uSER_SkinType;
+	}
 	public String getUSER_HonorScore() {
 		return USER_HonorScore;
 	}
